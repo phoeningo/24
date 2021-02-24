@@ -94,7 +94,7 @@ def op_type(a,b,i):
     return a*b
   elif i==3:
     if b==0:return 99999
-    else:return a/b
+    else:return float(a)/float(b)
 
 def basic(listx):
  # print(listx)
