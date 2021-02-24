@@ -104,7 +104,7 @@ def basic(listx):
     for j in range(4):
       for k in range(4):
         if (getlevel(op[i])==getlevel(op[k])) and not( getlevel(op[i])==getlevel(op[j]) ) and op_type(op_type(a,b,i),op_type(c,d,k),j)==24:
-          outstr='('+str(a)+op[i]+str(b)+')'+op[j]+'('+str(c)+op[k]+str(d)+') = '+str(op_type(op_type(a,b,i),op_type(c,d,k),j))
+          outstr='('+str(a)+op[i]+str(b)+')'+op[j]+'('+str(c)+op[k]+str(d)+') = 24'
           print(outstr)
           sys.exit(1)
 
