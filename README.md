@@ -4,4 +4,4 @@
  5*(5-2/10) = 24
  
  
- # only non-negative intergers are supported! 
+ # only non-negative integers are supported!
