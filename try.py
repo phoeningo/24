@@ -1,5 +1,5 @@
 import sys
-
+from copy import copy
 # usage: python try.py 1 2 3 4
 s=[]
 for i in range(4):
@@ -10,7 +10,6 @@ stack=[]
 op=['+','-','*','/']
 
 nums=[]
-
 
 
 def exclude(x,index):
@@ -25,6 +24,27 @@ def multi(listx):
   for item in listx:
     res*=item
   return res
+
+def enum(a):
+  if len(a)==1:return [a]
+ 
+  current=[]
+  new_current=[]
+  all_list=[]
+  #print(a)
+  for i in range(len(a)):
+    current.append(a[i])
+    x=enum(exclude(a,i))
+    #print(x)
+    for item_list in x:
+      new_current=copy(current)
+      for item in item_list:
+        new_current.append(item)
+      all_list.append(new_current)
+    current=[]
+  #print(all_list)
+  return all_list
+
 
 def calc(x,num):
   if len(x)==1:
@@ -53,27 +73,63 @@ def calc(x,num):
       elif opi==2:
         tmpnum=float(num)/float(x[i])
       else:
-        tmpnum=float(x[i])/float(num)
-
+        if num==0: 
+          stack.pop() 
+          break
+        else:tmpnum=float(x[i])/float(num)
       nums.append(x[i])
-
       if calc(exclude(x,i),tmpnum) :return True
       else: 
         stack.pop()
         nums.pop()
   return False
 
+
+def op_type(a,b,i):
+  if i==0:
+    return a+b
+  elif i==1:
+    return a-b
+  elif i==2:
+    return a*b
+  elif i==3:
+    if b==0:return 99999
+    else:return a/b
+
+def basic(listx):
+ # print(listx)
+  a,b,c,d=listx
+  outstr='False.'
+  for i in range(4):
+    for j in range(4):
+      for k in range(4):
+        if (getlevel(op[i])==getlevel(op[k])) and not( getlevel(op[i])==getlevel(op[j]) ) and op_type(op_type(a,b,i),op_type(c,d,k),j)==24:
+          outstr='('+str(a)+op[i]+str(b)+')'+op[j]+'('+str(c)+op[k]+str(d)+') = '+str(op_type(op_type(a,b,i),op_type(c,d,k),j))
+          print(outstr)
+          sys.exit(1)
+
+def calc_enum(s):
+  all_list=enum([0,1,2,3])
+  for listx in all_list:
+    cur=[]
+    for i in range(4):
+      cur.append(s[listx[i]])
+    basic(cur)
+  return
+
+
+
 def getlevel(opitem):
   try:
-    
     res=op.index(opitem)/2
-    
     return res
   except:
     return 4
 
 
 levels=[]
+
+calc_enum(s)
 
 if calc(s,24):
   si=0
@@ -108,9 +164,10 @@ if calc(s,24):
   outstr+=str(nums[3])
   for i in range(pro):
     outstr+=')'
+  outstr+=' = 24'
   print(outstr) 
 else:
   print(' False.')
         
       
-   
+
